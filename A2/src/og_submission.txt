@@ -9,6 +9,7 @@ import pickle
 import random
 
 import numpy as np
+from pandas import concat
 
 from utils.gradcheck import gradcheck_naive
 from utils.utils import softmax
@@ -24,8 +25,7 @@ def sigmoid(x):
   x -- A scalar or numpy array.
   Return:
   s -- sigmoid(x)
-  """
-
+  """ 
   ### START CODE HERE
   s = 1/(1+np.exp(-x))
   ### END CODE HERE
@@ -34,9 +34,11 @@ def sigmoid(x):
 
 def naive_softmax_loss_and_gradient(center_word_vec,outside_word_idx,outside_vectors,dataset):
   """ Naive Softmax loss & gradient function for word2vec models
+
   Implement the naive softmax loss and gradients between a center word's 
   embedding and an outside word's embedding. This will be the building block
   for our word2vec models.
+
   Arguments:
   center_word_vec -- numpy ndarray, center word's embedding
                   (v_c in the pdf handout)
@@ -45,6 +47,7 @@ def naive_softmax_loss_and_gradient(center_word_vec,outside_word_idx,outside_vec
   outside_vectors -- outside vectors (rows of matrix) for all words in vocab
                     (U in the pdf handout)
   dataset -- needed for negative sampling, unused here.
+
   Return:
   loss -- naive softmax loss
   grad_center_vec -- the gradient with respect to the center word vector
@@ -56,6 +59,7 @@ def naive_softmax_loss_and_gradient(center_word_vec,outside_word_idx,outside_vec
    - we usually use column vector convention (i.e., vectors are in column form) for vectors in matrix U and V (in the handout)
    but for ease of implementation/programming we usually use row vectors (representing vectors in row form).
    - A softmax() function provided (utils/utils.py) which takes as input a vector/matrix of values and returns the softmax for each value in the vector, relative to the others.
+
   """
 
   ### Please use the provided softmax function (imported earlier in this file)
@@ -85,6 +89,10 @@ def naive_softmax_loss_and_gradient(center_word_vec,outside_word_idx,outside_vec
       grad_outside_vecs = np.concatenate((np.atleast_2d(grad_outside_vecs),np.atleast_2d(center_word_vec*(np.exp(np.dot(outside_vectors[i].T,center_word_vec))/dem))), axis=0)
   grad_center_vec = -(ow_vec - grad_center_vec)
   grad_outside_vecs = np.delete(grad_outside_vecs,0,0)
+
+  
+
+  
   ### END CODE HERE
 
   return loss, grad_center_vec, grad_outside_vecs
@@ -102,8 +110,10 @@ def get_negative_samples(outside_word_idx, dataset, K):
 
 def neg_sampling_loss_and_gradient(center_word_vec,outside_word_idx,outside_vectors,dataset,K=10):
   """ Negative sampling loss function for word2vec models
+
    Arguments/Return Specifications: same as naive_softmax_loss_and_gradient
    K is the number of negative samples to take.
+
    """
 
   neg_sample_word_indices = get_negative_samples(outside_word_idx, dataset, K)
@@ -129,7 +139,9 @@ def neg_sampling_loss_and_gradient(center_word_vec,outside_word_idx,outside_vect
 
 def skipgram(current_center_word, window_size, outside_words, word2ind, center_word_vectors, outside_vectors, dataset, word2vec_loss_and_gradient=neg_sampling_loss_and_gradient):
   """ Skip-gram model in word2vec
+
   Implement the skip-gram model in this function.
+
   Arguments:
   current_center_word -- a string of the current center word
   window_size -- integer, context window size
@@ -144,6 +156,7 @@ def skipgram(current_center_word, window_size, outside_words, word2ind, center_w
                              a prediction vector given the outsideWordIdx
                              word vectors, could be one of the two
                              loss functions you implemented above (do not hardcode any of them).
+
   Return:
   loss -- the loss function value for the skip-gram model
           (J in the pdf handout)
@@ -159,7 +172,12 @@ def skipgram(current_center_word, window_size, outside_words, word2ind, center_w
 
   ### START CODE HERE
   cw_idx = word2ind[current_center_word]
+  #for i in range(-window_size, window_size):
   for i in range(len(outside_words)):
+    #if(i+cw_idx==0 or i == cw_idx):
+      #continue
+    #if (i+cw_idx>(len(word2ind)-1)):
+      #break
     loss_temp,grad_center_vecs_temp,grad_outside_vectors_temp = word2vec_loss_and_gradient(center_word_vectors[cw_idx,:], word2ind[outside_words[i]], outside_vectors, dataset)
     loss = loss + loss_temp
     grad_center_vecs[cw_idx] = grad_center_vecs[cw_idx] + grad_center_vecs_temp
@@ -219,7 +237,9 @@ def save_params(iter, params):
 
 def sgd(f, x0, step, iterations, postprocessing=None, use_saved=False,PRINT_EVERY=10):
   """ Stochastic Gradient Descent
+
   Implement the stochastic gradient descent method in this function.
+
   Arguments:
   f -- the function to optimize, it should take a single
        argument and yield two outputs, a loss and the gradient
@@ -231,6 +251,7 @@ def sgd(f, x0, step, iterations, postprocessing=None, use_saved=False,PRINT_EVER
                     if necessary. In the case of word2vec we will need to
                     normalize the word vectors to have unit length.
   PRINT_EVERY -- specifies how many iterations to output loss
+
   Return:
   x -- the parameter value after SGD finishes
   """
@@ -260,7 +281,7 @@ def sgd(f, x0, step, iterations, postprocessing=None, use_saved=False,PRINT_EVER
     # You might want to print the progress every few iterations.
 
     loss = None
-    ### START CODE HERE
+    ### START CODE 
     loss,grad = f(x)
     x = x-(step*grad)
     ### END CODE HERE
