@@ -14,7 +14,7 @@ from submission import ParserModel, minibatches, load_and_preprocess_data, Avera
 if __name__ == "__main__":
     # set test to False while training the model
     # Note: Set debug to False, when training on entire corpus
-    debug = True
+    debug = False
     # debug = False
 
     assert (torch.__version__ >= "1.0.0"), "Please install torch version 1.0.0 or greater"

@@ -21,6 +21,9 @@ class PartialParse(object):
         self.sentence = sentence
 
         ### START CODE HERE
+        self.stack = ["ROOT"]
+        self.buffer = sentence.copy()
+        self.dependencies = []
         ### END CODE HERE
 
     def parse_step(self, transition):
@@ -32,6 +35,19 @@ class PartialParse(object):
                         transition.
         """
         ### START CODE HERE
+        latest_tkn = len(self.stack)-1
+        second_tkn = len(self.stack)-2
+        if(transition == "S"):
+            self.stack.append(self.buffer[0])
+            self.buffer.pop(0)
+        elif(transition == "LA"):
+            self.dependencies.append((self.stack[latest_tkn],self.stack[second_tkn]))
+            self.stack.pop(second_tkn)
+        elif(transition == "RA"):
+            self.dependencies.append((self.stack[second_tkn],self.stack[latest_tkn]))
+            self.stack.pop(latest_tkn)
+        else:
+            print("bad transition type")
         ### END CODE HERE
 
     def parse(self, transitions):
@@ -66,6 +82,32 @@ def minibatch_parse(sentences, model, batch_size):
     """
 
     ### START CODE HERE
+    parsers = []
+    #incomplete = True
+    batch_rb = batch_size if batch_size<len(sentences) else len(sentences)
+    for i in range(len(sentences)):
+            parsers.append(PartialParse(sentences[i]))
+    #soft copy of the pointers to the objects only
+    incomplete_parsers = parsers.copy()
+    #keep going until all the parsers are poped off
+    while(len(incomplete_parsers) > 0):
+        transitions = model.predict(incomplete_parsers[:batch_rb])
+        for i in range(batch_rb):
+            incomplete_parsers[i].parse_step(transitions[i])
+        #for i in range(batch_rb):
+        i=0
+        while(i<batch_rb):           
+            if incomplete_parsers[i].buffer == [] and len(incomplete_parsers[i].stack) == 1:
+                incomplete_parsers.pop(i)
+                #if len(incomplete_parsers) <= batch_size: 
+                i -= 1
+            i += 1
+            if len(incomplete_parsers) < batch_size:
+                batch_rb = len(incomplete_parsers)
+
+    dependencies = []
+    for i in range(len(parsers)):
+        dependencies.append(parsers[i].dependencies)
     ### END CODE HERE
 
     return dependencies
