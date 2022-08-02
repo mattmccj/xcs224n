@@ -40,6 +40,14 @@ def pad_sents(sents, pad_token):
     sents_padded = []
 
     ### START CODE HERE (~6 Lines)
+    #find the longest sentence
+    for sentence in sents:
+        max_len = len(sentence) if max_len < len(sentence) else max_len
+    #pad sentences
+    sents_padded = sents 
+    for sentence in sents_padded:
+        while (len(sentence)<max_len):
+            sentence.append(pad_token)
     ### END CODE HERE
 
     return sents_padded
