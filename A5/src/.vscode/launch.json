@@ -1,0 +1,132 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "namedata gen",
+            "type": "python",
+            "request": "launch",
+            "program": "c:\\git\\xcs224n\\A5\\src\\submission\\dataset.py",
+            "args": ["namedata"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "grader",
+            "type": "python",
+            "request": "launch",
+            "program": "c:\\git\\xcs224n\\A5\\src\\grader.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "vanilla_finetune_without_pretrain",
+            "type": "python",
+            "request": "launch",
+            "program": "c:\\git\\xcs224n\\A5\\src\\submission\\run.py",
+            "args": ["--function=finetune", "--variant=vanilla", "--pretrain_corpus_path=./data/wiki.txt", "--writing_params_path=./submission/vanilla.model.params", "--finetune_corpus_path=./data/birth_places_train.tsv"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "vanilla_eval_dev_without_pretrain",
+            "type": "python",
+            "request": "launch",
+            "program": "c:\\git\\xcs224n\\A5\\src\\submission\\run.py",
+            "args": ["--function=evaluate", "--variant=vanilla", "--pretrain_corpus_path=./data/wiki.txt", "--reading_params_path=./submission/vanilla.model.params", "--eval_corpus_path=./data/birth_dev.tsv", "--outputs_path=./submission/vanilla.nopretrain.dev.predictions"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "vanilla_eval_test_without_pretrain",
+            "type": "python",
+            "request": "launch",
+            "program": "c:\\git\\xcs224n\\A5\\src\\submission\\run.py",
+            "args": ["--function=evaluate", "--variant=vanilla", "--pretrain_corpus_path=./data/wiki.txt", "--reading_params_path=./submission/vanilla.model.params", "--eval_corpus_path=./data/birth_test_inputs.tsv", "--outputs_path=./submission/vanilla.nopretrain.test.predictions"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "vanilla_pretrain",
+            "type": "python",
+            "request": "launch",
+            "program": "c:\\git\\xcs224n\\A5\\src\\submission\\run.py",
+            "args": ["--function=pretrain", "--variant=vanilla", "--pretrain_corpus_path=./data/wiki.txt", "--writing_params_path=./submission/vanilla.pretrain.params"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "vanilla_finetune_with_pretrain",
+            "type": "python",
+            "request": "launch",
+            "program": "c:\\git\\xcs224n\\A5\\src\\submission\\run.py",
+            "args": ["--function=finetune", "--variant=vanilla", "--pretrain_corpus_path=./data/wiki.txt", "--reading_params_path=./submission/vanilla.pretrain.params", "--writing_params_path=./submission/vanilla.finetune.params", "--finetune_corpus_path=./data/birth_places_train.tsv"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "vanilla_eval_dev_with_pretrain",
+            "type": "python",
+            "request": "launch",
+            "program": "c:\\git\\xcs224n\\A5\\src\\submission\\run.py",
+            "args": ["--function=evaluate", "--variant=vanilla", "--pretrain_corpus_path=./data/wiki.txt", "--reading_params_path=./submission/vanilla.finetune.params", "--eval_corpus_path=./data/birth_dev.tsv", "--outputs_path=./submission/vanilla.pretrain.dev.predictions"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "vanilla_eval_test_with_pretrain",
+            "type": "python",
+            "request": "launch",
+            "program": "c:\\git\\xcs224n\\A5\\src\\submission\\run.py",
+            "args": ["--function=evaluate", "--variant=vanilla", "--pretrain_corpus_path=./data/wiki.txt", "--reading_params_path=./submission/vanilla.finetune.params", "--eval_corpus_path=./data/birth_test_inputs.tsv", "--outputs_path=./submission/vanilla.pretrain.test.predictions"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "synthesizer_pretrain",
+            "type": "python",
+            "request": "launch",
+            "program": "c:\\git\\xcs224n\\A5\\src\\submission\\run.py",
+            "args": ["--function=pretrain", "--variant=synthesizer", "--pretrain_corpus_path=./data/wiki.txt", "--writing_params_path=./submission/synthesizer.pretrain.params"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "synthesizer_finetune_with_pretrain",
+            "type": "python",
+            "request": "launch",
+            "program": "c:\\git\\xcs224n\\A5\\src\\submission\\run.py",
+            "args": ["--function=finetune", "--variant=synthesizer", "--pretrain_corpus_path=./data/wiki.txt", "--reading_params_path=./submission/synthesizer.pretrain.params", "--writing_params_path=./submission/synthesizer.finetune.params", "--finetune_corpus_path=./data/birth_places_train.tsv"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "synthesizer_eval_dev_with_pretrain",
+            "type": "python",
+            "request": "launch",
+            "program": "c:\\git\\xcs224n\\A5\\src\\submission\\run.py",
+            "args": ["--function=evaluate", "--variant=synthesizer", "--pretrain_corpus_path=./data/wiki.txt", "--reading_params_path=./submission/synthesizer.finetune.params", "--eval_corpus_path=./data/birth_dev.tsv", "--outputs_path=./submission/synthesizer.pretrain.dev.predictions"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "synthesizer_eval_test_with_pretrain",
+            "type": "python",
+            "request": "launch",
+            "program": "c:\\git\\xcs224n\\A5\\src\\submission\\run.py",
+            "args": ["--function=evaluate", "--variant=synthesizer", "--pretrain_corpus_path=./data/wiki.txt", "--reading_params_path=./submission/synthesizer.finetune.params", "--eval_corpus_path=./data/birth_test_inputs.tsv", "--outputs_path=./submission/synthesizer.pretrain.test.predictions"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}

@@ -175,6 +175,15 @@ class CharCorruptionDataset(Dataset):
         ### [part e]: see spec above
 
         ### START CODE HERE
+        # grab a chunk of (block_size + 1) characters from the data
+        chunk = self.data[0][idx:idx+self.block_size+1]
+        #encode every character to a number
+        dix = [self.stoi[s] for s in chunk]
+        #get embeds of encode
+        x = torch.tensor(dix[:-1], dtype=torch.long)
+        y = torch.tensor(dix[1:], dtype=torch.long)
+        #return embeds
+        return x,y
         ### END CODE HERE
 
         raise NotImplementedError

@@ -246,7 +246,6 @@ class NMT(nn.Module):
         #contstruct Y target sentences
         #Y = torch.zeros((target_padded.shape[0],batch_size,self.model_embeddings.embed_size))
         Y = self.model_embeddings.target(target_padded)
-        first = True
         for Y_t in torch.split(Y,1):
             Y_t = torch.squeeze(Y_t,0)
             Ybar_t = torch.cat((Y_t,o_prev),1)
