@@ -195,7 +195,7 @@ class CharCorruptionDataset(Dataset):
         prefix = chunk[:mask_idx]
         masked = chunk[mask_idx:mask_idx+mask_len]
         suffix = chunk[mask_idx+mask_len:]
-        pad = self.PAD_CHAR*(self.block_size-chunk_size-1)
+        pad = self.PAD_CHAR*(self.block_size-chunk_size-2)
 
         masked_str = prefix + self.MASK_CHAR + suffix + self.MASK_CHAR + masked + self.MASK_CHAR + pad
         #encode every character to a number
