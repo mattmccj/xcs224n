@@ -1,4 +1,6 @@
+from pydoc import doc
 import random
+from sys import prefix
 import torch
 from torch.utils.data import Dataset
 import argparse
@@ -175,13 +177,36 @@ class CharCorruptionDataset(Dataset):
         ### [part e]: see spec above
 
         ### START CODE HERE
+        #random.seed(1322)
+
+        #select size og doc chunk
+        chunk_size = int(random.uniform(4, self.block_size*7/8))
         # grab a chunk of (block_size + 1) characters from the data
-        chunk = self.data[0][idx:idx+self.block_size+1]
+        doc = self.data[idx]
+        if(len(doc)<chunk_size):
+            chunk_size = len(doc)
+        chunk = doc[:chunk_size]
+        
+        #get the 3 parts of the doc1/4 of seleected
+        mask_len = int(random.uniform(1/8,3/8)*(chunk_size))
+        mask_idx = int(random.uniform(1,(chunk_size-mask_len-1)))
+        
+        #reorganize
+        prefix = chunk[:mask_idx]
+        masked = chunk[mask_idx:mask_idx+mask_len]
+        suffix = chunk[mask_idx+mask_len:]
+        pad = self.PAD_CHAR*(self.block_size-chunk_size-1)
+
+        masked_str = prefix + self.MASK_CHAR + suffix + self.MASK_CHAR + masked + self.MASK_CHAR + pad
         #encode every character to a number
-        dix = [self.stoi[s] for s in chunk]
+        masked_dix = [self.stoi[s] for s in masked_str]
         #get embeds of encode
-        x = torch.tensor(dix[:-1], dtype=torch.long)
-        y = torch.tensor(dix[1:], dtype=torch.long)
+        x = torch.tensor(masked_dix[:-1], dtype=torch.long)
+        y = torch.tensor(masked_dix[1:], dtype=torch.long)
+        #pad the tensors
+        if(len(x) != len(y)):
+            print("x len doesn't match y len\n")
+
         #return embeds
         return x,y
         ### END CODE HERE
