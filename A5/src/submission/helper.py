@@ -71,7 +71,7 @@ def finetune(reading_params_path, finetune_corpus_path, pretrain_dataset, block_
         final_tokens=200*len(pretrain_dataset)*block_size
         num_workers=4
         #load the pretrain model
-        model.load_state_dict(torch.load(reading_params_path),map_location=torch.device('cpu'))
+        model.load_state_dict(torch.load(reading_params_path, map_location=torch.device('cpu')))
     else:          
         max_epochs=75
         batch_size=256
