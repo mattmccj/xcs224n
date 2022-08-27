@@ -70,6 +70,8 @@ def finetune(reading_params_path, finetune_corpus_path, pretrain_dataset, block_
         warmup_tokens=512*20
         final_tokens=200*len(pretrain_dataset)*block_size
         num_workers=4
+        #load the pretrain model
+        model.load_state_dict(torch.load(reading_params_path),map_location=torch.device('cpu'))
     else:          
         max_epochs=75
         batch_size=256
@@ -78,8 +80,7 @@ def finetune(reading_params_path, finetune_corpus_path, pretrain_dataset, block_
         warmup_tokens=512*20
         final_tokens=200*len(pretrain_dataset)*block_size
         num_workers=4
-        #load the pretrain model
-        model.load_state_dict(torch.load(reading_params_path), map_location=torch.device('cpu'))
+        
     #test_set = torch.load(finetune_corpus_path, map_location=torch.device('cpu'))
     tconf = TrainerConfig(max_epochs = max_epochs, batch_size = batch_size, learning_rate = learning_rate, lr_decay = lr_decay, warmup_tokens = warmup_tokens, final_tokens = final_tokens, num_workers = num_workers)
     finetune_corpus = open(finetune_corpus_path, 'r', encoding="utf8").read()
